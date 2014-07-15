@@ -53,6 +53,10 @@ app.get('/morsels/:id', function(req, res){
   });
 });
 
+app.get('*', function(req, res){
+  res.redirect('http://www.eatmorsel.com');
+});
+
 httpServer = app.listen(port, function() {
   console.log("Listening on " + port);
 });
