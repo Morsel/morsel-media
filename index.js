@@ -26,30 +26,34 @@ app.get('/morsels/:id', function(req, res){
     var morsel = JSON.parse(body).data,
         metadata;
 
-    metadata = {
-      "title": _.escape(morsel.title + ' - ' + morsel.creator.first_name + ' ' + morsel.creator.last_name),
-      "image": getMetadataImage(morsel) || 'http://www.eatmorsel.com/assets/images/logos/morsel-large.png',
-      "description": getFirstDescription(morsel.items),
-      "twitter": {
-        "creator": '@'+(morsel.creator.twitter_username || 'eatmorsel')
-      },
-      "og": {
-        "article_published_at": morsel.published_at,
-        "article_modified_at": morsel.updated_at
-      },
-      "url": siteUrl+morsel.id
-    };
+    if (!error && response.statusCode == 200) {
+      metadata = {
+        "title": _.escape(morsel.title + ' - ' + morsel.creator.first_name + ' ' + morsel.creator.last_name),
+        "image": getMetadataImage(morsel) || 'http://www.eatmorsel.com/assets/images/logos/morsel-large.png',
+        "description": getFirstDescription(morsel.items),
+        "twitter": {
+          "creator": '@'+(morsel.creator.twitter_username || 'eatmorsel')
+        },
+        "og": {
+          "article_published_at": morsel.published_at,
+          "article_modified_at": morsel.updated_at
+        },
+        "url": siteUrl+morsel.id
+      };
 
-    if(morsel.creator.facebook_uid) {
-      metadata.og.author = morsel.creator.facebook_uid;
+      if(morsel.creator.facebook_uid) {
+        metadata.og.author = morsel.creator.facebook_uid;
+      }
+
+      res.status(200).render('morsel_metadata', {
+        nodeEnv: nodeEnv,
+        metadata: metadata,
+        //this thing gets replaced by something from the API
+        returnUrl: 'http://morsel-presskit-test.herokuapp.com/shell/8#'+morsel.id
+      });
+    } else {
+      res.send('Morsel can\t be found');
     }
-
-    res.status(200).render('morsel_metadata', {
-      nodeEnv: nodeEnv,
-      metadata: metadata,
-      //this thing gets replaced by something from the API
-      returnUrl: 'http://morsel-presskit-test.herokuapp.com/shell/8#'+morsel.id
-    });
   });
 });
 
