@@ -52,7 +52,7 @@ app.get('/morsels/:id', function(req, res){
         returnUrl: 'http://morsel-presskit-test.herokuapp.com/shell/8#'+morsel.id
       });
     } else {
-      res.send('Morsel can\t be found');
+      res.send('Morsel can\'t be found');
     }
   });
 });
