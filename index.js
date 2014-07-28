@@ -14,10 +14,16 @@ app.use(logfmt.requestLogger());
 var compress = require('compression');
 app.use(compress());
 
+app.use('/assets', express.static(__dirname + '/assets'));
+
 //use hbs for templates
 var hbs = require('hbs');
 app.set('view engine', 'hbs');
 app.set('views', __dirname + '/views');
+
+app.get('/', function(req, res) {
+  res.redirect('http://www.eatmorsel.com');
+};
 
 app.get('/morsels/:id', function(req, res){
   var request = require('request');
@@ -52,18 +58,22 @@ app.get('/morsels/:id', function(req, res){
         returnUrl: 'http://morsel-presskit-test.herokuapp.com/shell/8#'+morsel.id
       });
     } else {
-      res.send('Morsel can\'t be found');
+      render404();
     }
   });
 });
 
 app.get('*', function(req, res){
-  res.redirect('http://www.eatmorsel.com');
+  render404();
 });
 
 httpServer = app.listen(port, function() {
   console.log("Listening on " + port);
 });
+
+function render404() {
+  res.status(404).render('404');
+}
 
 function getMetadataImage(morsel) {
   var primaryItem;

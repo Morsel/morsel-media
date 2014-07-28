@@ -1,0 +1,65 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:300,400);
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: white url(/assets/tile.png) center center repeat;
+  color: #394038;
+  font-family: "Roboto", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #e96144;
+  text-decoration: none;
+
+  &:hover {
+    color: #87392b;
+    text-decoration: underline;
+  }
+}
+
+.error-page {
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  padding: 200px 30px 40px;
+  background: url(/assets/images/octopus.png) center top no-repeat;
+
+  h1 {
+    width: 130px;
+    height: 80px;
+    margin: 10px auto 20px;
+    background: url(/assets/images/morsel-text.png) center top no-repeat;
+    background-size: 130px 59px;
+    display: block;
+    text-indent: -9999px;
+    overflow: hidden;
+    border-bottom: 1px solid #e2ddd7;
+  }
+
+  .links {
+    margin: 30px 0 0 0;
+    padding: 0;
+    text-align: center;
+
+    li {
+      display: inline-block;
+      padding: 0 20px;
+
+      & + li {
+        border-left: 1px solid #e96144;
+      }
+    }
+  }
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+  .error-page {
+    h1 {
+      background-image: url(/assets/morsel-text@2x.png);
+    }
+  }
+}
