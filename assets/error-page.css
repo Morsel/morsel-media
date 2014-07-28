@@ -1,5 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Roboto+Slab:400,700);
-@import url(http://fonts.googleapis.com/css?family=Roboto:300,400);
+@import url(http://fonts.googleapis.com/css?family=Roboto:400);
 
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -73,10 +72,6 @@ body {
   padding: 10px 10px 5px;
   border-radius: 5px;
   font-family: "Roboto", Helvetica, Arial, sans-serif;
-}
-
-h1, h2, h3, h4, h5 {
-  font-family: 'Roboto Slab', 'Helvetica Neue Light', 'Helvetica Neue', Arial, sans-serif;
 }
 
 a {
