@@ -23,7 +23,7 @@ app.set('views', __dirname + '/views');
 
 app.get('/', function(req, res) {
   res.redirect('http://www.eatmorsel.com');
-};
+});
 
 app.get('/morsels/:id', function(req, res){
   var request = require('request');
@@ -58,20 +58,20 @@ app.get('/morsels/:id', function(req, res){
         returnUrl: 'http://morsel-presskit-test.herokuapp.com/shell/8#'+morsel.id
       });
     } else {
-      render404();
+      render404(res);
     }
   });
 });
 
 app.get('*', function(req, res){
-  render404();
+  render404(res);
 });
 
 httpServer = app.listen(port, function() {
   console.log("Listening on " + port);
 });
 
-function render404() {
+function render404(res) {
   res.status(404).render('404');
 }
 
