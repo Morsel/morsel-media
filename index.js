@@ -63,6 +63,10 @@ app.get('/morsels/:id', function(req, res){
   });
 });
 
+app.get('/robots.txt', function(req, res){
+  res.sendfile('robots.txt');
+});
+
 app.get('*', function(req, res){
   render404(res);
 });
