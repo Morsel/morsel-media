@@ -14,6 +14,9 @@
     "compression": "~1.0.8",
     "hbs": "~2.7.0",
     "request": "~2.37.0",
-    "underscore": "~1.6.0"
+    "underscore": "~1.6.0",
+    "cluster": "~0.7.7",
+    "rollbar": "~0.3.11",
+    "domain": "~0.2.8"
   }
 }
