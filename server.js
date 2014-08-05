@@ -103,7 +103,8 @@ if (cluster.isMaster && ((process.env.NODE_ENV || 'local') !== 'local')) {
 
       request(apiUrl+'/morsels/'+req.params.id+'.json', function (error, response, body) {
         var morsel = JSON.parse(body).data,
-            metadata;
+            metadata,
+            widgetMorselUrl;
 
         if (!error && response.statusCode == 200) {
           metadata = {
@@ -124,11 +125,18 @@ if (cluster.isMaster && ((process.env.NODE_ENV || 'local') !== 'local')) {
             metadata.og.author = morsel.creator.facebook_uid;
           }
 
+          //is there a proper widget url to forward to?
+          if(morsel.place && morsel.place.widget_url) {
+            widgetMorselUrl = morsel.place.widget_url+'#'+encodeURIComponent('mrsltype=morsel&mrslid='+morsel.id);
+          } else {
+            //no - just send them to www.eatmorsel.com
+            widgetMorselUrl = morsel.url;
+          }
+
           res.status(200).render('morsel_metadata', {
             nodeEnv: nodeEnv,
             metadata: metadata,
-            //this thing gets replaced by something from the API
-            returnUrl: 'http://morsel-presskit-test.herokuapp.com/shell/8#'+morsel.id
+            returnUrl: widgetMorselUrl
           });
         } else {
           render404(res);
