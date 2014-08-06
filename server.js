@@ -110,7 +110,7 @@ if (cluster.isMaster && ((process.env.NODE_ENV || 'local') !== 'local')) {
           metadata = {
             "title": _.escape(morsel.title + ' - ' + morsel.creator.first_name + ' ' + morsel.creator.last_name),
             "image": getMetadataImage(morsel) || 'http://www.eatmorsel.com/assets/images/logos/morsel-large.png',
-            "description": getFirstDescription(morsel.items),
+            "description": getFirstDescription(morsel.items) || ('A morsel from '+morsel.creator.first_name+' '+morsel.creator.last_name),
             "twitter": {
               "creator": '@'+(morsel.creator.twitter_username || 'eatmorsel')
             },
@@ -169,24 +169,14 @@ if (cluster.isMaster && ((process.env.NODE_ENV || 'local') !== 'local')) {
     function getMetadataImage(morsel) {
       var primaryItem;
 
-      //if they have a collage, use it
-      if(morsel.photos) {
-        if(morsel.photos._800x600) {
-          return morsel.photos._800x600;
-        } else {
-          return morsel.photos._400x300;
-        }
+      //use their cover photo if there is one
+      if(primaryItem && primaryItem.photos) {
+        return primaryItem.photos._992x992;
       } else {
-        //use their cover photo as backup
-        primaryItem = _.find(morsel.items, function(i) {
-          return i.id === morsel.primary_item_id;
-        });
-
-        if(primaryItem && primaryItem.photos) {
-          return primaryItem.photos._992x992;
-        } else {
-          return morsel.items[0].photos._992x992;
-        }
+        //if not, use first item with a photo
+        return _.find(morsel.items, function(i) {
+          return i.photos;
+        }).photos._992x992;
       }
     }
 
@@ -200,7 +190,7 @@ if (cluster.isMaster && ((process.env.NODE_ENV || 'local') !== 'local')) {
       if(firstItemWithDescription) {
         return firstItemWithDescription.description;
       } else {
-        return '';
+        return null;
       }
     }
   });
