@@ -180,6 +180,39 @@ if (cluster.isMaster && ((process.env.NODE_ENV || 'local') !== 'local')) {
       }
     }
 
+    function getMetadataImage(morsel) {
+      var primaryItemPhotos = findPrimaryItemPhotos(morsel),
+          lastItemWithPhotos;
+
+      //use their cover photo if there is one
+      if(primaryItemPhotos) {
+        return primaryItemPhotos._992x992;
+      } else {
+        lastItemWithPhotos = findLastItemWithPhotos(morsel.items);
+        return lastItemWithPhotos ? lastItemWithPhotos._992x992 : null;
+      }
+    }
+
+    function findPrimaryItemPhotos(morsel) {
+      var primaryItem = _.find(morsel.items, function(i) {
+        return i.id === morsel.primary_item_id;
+      });
+
+      if(primaryItem && primaryItem.photos) {
+        return primaryItem.photos;
+      } else {
+        return null;
+      }
+    }
+
+    function findLastItemWithPhotos(items) {
+      var reverseItems = items.slice(0);
+
+      return _.find(reverseItems, function(i) {
+        return i.photos;
+      });
+    }
+
     function getFirstDescription(items) {
       var firstItemWithDescription;
 
